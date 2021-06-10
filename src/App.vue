@@ -1,11 +1,20 @@
 <template>
   <div id="app">
+    <button
+        type="button"
+        @click="$refs.kityminder.removeNode()"
+    >
+      删除
+    </button>
     <vue-kityminder
         style="height: 600px"
+        ref="kityminder"
         :value="val"
+        :toolbar-status="toolbar"
         @content-change="handleContent"
         @node-change="handleNode"
         @node-remove="handleRemove"
+        @selection-change="handleSelection"
     >
     </vue-kityminder>
   </div>
@@ -35,6 +44,16 @@ export default {
             }
           }
         ]
+      },
+      toolbar: {
+        appendSiblingNode: true,
+        arrangeUp: true,
+        arrangeDown: false,
+        text: true,
+        template: true,
+        hand: false,
+        resetLayout: true,
+        zoomIn: true,
       }
     }
   },
@@ -44,8 +63,15 @@ export default {
     },
     handleNode(data) {
       console.log(data);
+
+      if (data.id === 0) {
+        this.$refs.kityminder.setNodeData('id', 12138);
+      }
     },
     handleRemove(data) {
+      console.log(data);
+    },
+    handleSelection(data) {
       console.log(data);
     }
   }

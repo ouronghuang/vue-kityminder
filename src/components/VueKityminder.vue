@@ -3,8 +3,12 @@
       :class="$options.name"
       :id="id"
   >
-    <div :class="`${$options.name}-toolbar-left`">
+    <div
+        v-if="toolbar.show && toolbar.left"
+        :class="`${$options.name}-toolbar-left`"
+    >
       <button
+          v-if="toolbar.appendSiblingNode"
           type="button"
           :class="`${$options.name}-btn`"
           :disabled="!selectedNodes"
@@ -13,6 +17,7 @@
         插入同级
       </button>
       <button
+          v-if="toolbar.appendChildNode"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           :disabled="!selectedNodes"
@@ -21,6 +26,7 @@
         插入下级
       </button>
       <button
+          v-if="toolbar.arrangeUp"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           :disabled="!selectedNodes"
@@ -29,6 +35,7 @@
         上移
       </button>
       <button
+          v-if="toolbar.arrangeDown"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           :disabled="!selectedNodes"
@@ -37,15 +44,17 @@
         下移
       </button>
       <button
+          v-if="toolbar.removeNode"
           type="button"
           title="双击执行删除操作"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           :disabled="selectedNodes !== 1"
-          @dblclick="handleCommand('RemoveNode')"
+          @dblclick="removeNode"
       >
         删除
       </button>
       <input
+          v-if="toolbar.text"
           v-model="text"
           type="text"
           placeholder="回车即可更新数据"
@@ -54,8 +63,12 @@
           @keyup.enter="handleText"
       >
     </div>
-    <div :class="`${$options.name}-toolbar-right`">
+    <div
+        v-if="toolbar.show && toolbar.right"
+        :class="`${$options.name}-toolbar-right`"
+    >
       <select
+          v-if="toolbar.template"
           v-model="template"
           :class="`${$options.name}-control`"
       >
@@ -68,6 +81,7 @@
         </option>
       </select>
       <select
+          v-if="toolbar.theme"
           v-model="theme"
           :class="`${$options.name}-control ${$options.name}-ml`"
       >
@@ -80,6 +94,7 @@
         </option>
       </select>
       <button
+          v-if="toolbar.hand"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           @click="handleHand"
@@ -87,6 +102,7 @@
         {{ hand ? '拖拽模式' : '选择模式' }}
       </button>
       <button
+          v-if="toolbar.resetLayout"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           @click="handleCommand('ResetLayout')"
@@ -94,6 +110,7 @@
         整理布局
       </button>
       <button
+          v-if="toolbar.zoomOut"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           @click="handleCommand('ZoomOut')"
@@ -101,6 +118,7 @@
         缩小
       </button>
       <button
+          v-if="toolbar.zoomIn"
           type="button"
           :class="`${$options.name}-btn ${$options.name}-ml`"
           @click="handleCommand('ZoomIn')"
@@ -127,6 +145,10 @@ export default {
           }
         };
       }
+    },
+    toolbarStatus: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -250,6 +272,26 @@ export default {
   computed: {
     id() {
       return `${this.$options.name}-${this._uid}`;
+    },
+    toolbar() {
+      return {
+        show: true,
+        left: true,
+        right: true,
+        appendSiblingNode: true,
+        appendChildNode: true,
+        arrangeUp: true,
+        arrangeDown: true,
+        removeNode: true,
+        text: true,
+        template: true,
+        theme: true,
+        hand: true,
+        resetLayout: true,
+        zoomOut: true,
+        zoomIn: true,
+        ...this.toolbarStatus
+      };
     }
   },
   watch: {
@@ -279,10 +321,12 @@ export default {
       } else {
         this.text = '';
       }
+
+      this.$emit('selection-change', this.getNodeData());
     });
     this.minder.on('preExecCommand', e => {
       if ('removenode' === e.commandName) {
-        this.$emit('node-remove', this.minder.getSelectedNode().getData());
+        this.$emit('node-remove', this.getNodeData());
       }
     });
     this.minder.on('execCommand', e => {
@@ -303,11 +347,41 @@ export default {
       this.handleTemplate(this.template);
       this.handleTheme(this.theme);
     },
+    getNodeData() {
+      if (this.selectedNodes !== 1) {
+        return null;
+      }
+
+      const node = this.minder.getSelectedNode();
+
+      return {
+        level: node.getLevel(),
+        ...node.getData()
+      };
+    },
+    setNodeData(key, data) {
+      if (this.selectedNodes !== 1) {
+        return false;
+      }
+
+      this.minder.getSelectedNode().setData(key, data);
+
+      return true;
+    },
+    removeNode() {
+      if (this.selectedNodes !== 1) {
+        return false;
+      }
+
+      this.handleCommand('RemoveNode');
+
+      return true;
+    },
     handleText() {
       if (this.selectedNodes === 1 && this.text) {
         this.minder.execCommand('text', this.text);
         this.$emit('content-change', this.minder.exportJson().root);
-        this.$emit('node-change', this.minder.getSelectedNode().getData());
+        this.$emit('node-change', this.getNodeData());
       }
     },
     handleCommand(command) {
