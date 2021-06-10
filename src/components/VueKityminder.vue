@@ -364,6 +364,7 @@ $primary: #409eff;
     border-radius: 3px;
     font-size: 12px;
     transition: background .3s ease;
+    padding: 2px 5px;
 
     &:hover {
       background: $primary;
