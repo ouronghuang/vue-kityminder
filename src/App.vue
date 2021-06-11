@@ -1,25 +1,17 @@
 <template>
-  <div id="app">
-    <button
-        type="button"
-        @click="$refs.kityminder.removeNode()"
-    >
-      删除
-    </button>
-    <vue-kityminder
-        style="height: 600px"
-        ref="kityminder"
-        theme="classic"
-        template="fish-bone"
-        :value="val"
-        :toolbar-status="toolbar"
-        @content-change="handleContent"
-        @node-change="handleNode"
-        @node-remove="handleRemove"
-        @selection-change="handleSelection"
-    >
-    </vue-kityminder>
-  </div>
+  <vue-kityminder
+      style="height: 600px"
+      ref="kityminder"
+      theme="classic"
+      template="fish-bone"
+      :value="val"
+      :toolbar-status="toolbar"
+      @content-change="handleContent"
+      @node-change="handleNode"
+      @node-remove="handleRemove"
+      @selection-change="handleSelection"
+  >
+  </vue-kityminder>
 </template>
 
 <script>

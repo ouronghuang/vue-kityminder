@@ -1,5 +1,5 @@
 <h1 align="center">
-    Vue 2 kityminder
+    Vue kityminder
 </h1>
 
 <p align="center">
@@ -14,17 +14,39 @@
     </a>
 </p>
 
-* 适用于 Vue 2 思维导图
+* 适用于 Vue 2/3 思维导图
 * 基于 [kityminder-core](https://github.com/fex-team/kityminder-core)
 
 ![demo](./demo.jpg)
+
+## Vue 3.x
+
+1. 安装
+
+```bash
+$ yarn add @orh/vue-kityminder@2
+```
+
+2. 引入
+
+```javascript
+import { createApp } from 'vue';
+import App from './App.vue';
+import VueKityminder from '@orh/vue-kityminder';
+
+createApp(App).use(VueKityminder).mount('#app')
+```
+
+3. 使用
+
+[示例代码](./src/App.vue)
 
 ## Vue 2.x
 
 1. 安装
 
 ```bash
-$ yarn add @orh/vue-kityminder
+$ yarn add @orh/vue-kityminder@1
 ```
 
 2. 引入
@@ -35,9 +57,23 @@ import VueKityminder from '@orh/vue-kityminder';
 Vue.use(VueKityminder);
 ```
 
-3. 使用
+## 使用
 
-[示例代码](./src/App.vue)
+```html
+<vue-kityminder
+    style="height: 600px"
+    ref="kityminder"
+    theme="classic"
+    template="fish-bone"
+    :value="val"
+    :toolbar-status="toolbar"
+    @content-change="handleContent"
+    @node-change="handleNode"
+    @node-remove="handleRemove"
+    @selection-change="handleSelection"
+>
+</vue-kityminder>
+```
 
 ## Props
 

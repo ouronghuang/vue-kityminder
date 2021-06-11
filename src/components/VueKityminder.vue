@@ -132,8 +132,9 @@
 <script>
 import 'kity';
 import 'kityminder-core';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'vue-kityminder',
   props: {
     value: {
@@ -280,7 +281,7 @@ export default {
   },
   computed: {
     id() {
-      return `${this.$options.name}-${this._uid}`;
+      return `${this.$options.name}-${this._.uid}`;
     },
     toolbar() {
       return {
@@ -419,7 +420,7 @@ export default {
       this.hand = this.minder.queryCommandState('Hand');
     }
   }
-}
+});
 </script>
 
 <style lang="scss">
