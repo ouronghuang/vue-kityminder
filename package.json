@@ -7,7 +7,7 @@
     "kityminder",
     "vue-kityminder"
   ],
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "./src/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",

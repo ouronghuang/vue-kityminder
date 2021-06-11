@@ -385,7 +385,7 @@ export default {
         return;
       }
 
-      this.minder.execCommand('text', this.text);
+      this.minder.execCommand('text', val);
       this.$emit('content-change', this.minder.exportJson().root);
       this.$emit('node-change', this.getNodeData());
     },
