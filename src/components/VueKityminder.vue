@@ -60,7 +60,7 @@
           placeholder="回车即可更新数据"
           :class="`${$options.name}-control ${$options.name}-ml`"
           :disabled="selectedNodes !== 1"
-          @keyup.enter="handleText"
+          @keyup.enter="setNodeText()"
       >
     </div>
     <div
@@ -148,7 +148,8 @@ export default {
     },
     toolbarStatus: {
       type: Object,
-      default: () => {}
+      default: () => {
+      }
     }
   },
   data() {
@@ -377,12 +378,16 @@ export default {
 
       return true;
     },
-    handleText() {
-      if (this.selectedNodes === 1 && this.text) {
-        this.minder.execCommand('text', this.text);
-        this.$emit('content-change', this.minder.exportJson().root);
-        this.$emit('node-change', this.getNodeData());
+    setNodeText(val = '') {
+      val = val || this.text;
+
+      if (!val || this.selectedNodes !== 1) {
+        return;
       }
+
+      this.minder.execCommand('text', this.text);
+      this.$emit('content-change', this.minder.exportJson().root);
+      this.$emit('node-change', this.getNodeData());
     },
     handleCommand(command) {
       this.minder.execCommand(command);
