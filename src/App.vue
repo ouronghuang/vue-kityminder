@@ -9,6 +9,8 @@
     <vue-kityminder
         style="height: 600px"
         ref="kityminder"
+        theme="classic"
+        template="fish-bone"
         :value="val"
         :toolbar-status="toolbar"
         @content-change="handleContent"

@@ -69,7 +69,7 @@
     >
       <select
           v-if="toolbar.template"
-          v-model="template"
+          v-model="tpl"
           :class="`${$options.name}-control`"
       >
         <option
@@ -82,7 +82,7 @@
       </select>
       <select
           v-if="toolbar.theme"
-          v-model="theme"
+          v-model="the"
           :class="`${$options.name}-control ${$options.name}-ml`"
       >
         <option
@@ -150,12 +150,20 @@ export default {
       type: Object,
       default: () => {
       }
+    },
+    theme: {
+      type: String,
+      default: 'fresh-blue'
+    },
+    template: {
+      type: String,
+      default: 'filetree'
     }
   },
   data() {
     return {
       minder: null,
-      template: 'filetree',
+      tpl: this.template,
       templates: [
         {
           name: 'default',
@@ -182,7 +190,7 @@ export default {
           title: '天盘图'
         }
       ],
-      theme: 'fresh-blue',
+      the: this.theme,
       themes: [
         {
           name: 'classic',
@@ -303,9 +311,15 @@ export default {
       deep: true
     },
     template(val) {
+      this.tpl = val;
+    },
+    tpl(val) {
       this.handleTemplate(val);
     },
     theme(val) {
+      this.the = val;
+    },
+    the(val) {
       this.handleTheme(val);
     }
   },
@@ -345,8 +359,8 @@ export default {
       }
 
       this.minder.importJson({root: this.value});
-      this.handleTemplate(this.template);
-      this.handleTheme(this.theme);
+      this.handleTemplate(this.tpl);
+      this.handleTheme(this.the);
     },
     getNodeData() {
       if (this.selectedNodes !== 1) {
@@ -394,9 +408,11 @@ export default {
     },
     handleTemplate(template) {
       this.minder.execCommand('Template', template);
+      this.$emit('template-change', template);
     },
     handleTheme(theme) {
       this.minder.execCommand('Theme', theme);
+      this.$emit('theme-change', theme);
     },
     handleHand() {
       this.minder.execCommand('Hand');

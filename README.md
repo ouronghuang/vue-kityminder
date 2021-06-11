@@ -44,6 +44,8 @@ Vue.use(VueKityminder);
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `value` | 数据格式 | `String` | 空 |
+| `theme` | 主题 | `String` | `fresh-blue` |
+| `template` | 模板 | `String` | `filetree` |
 | `toolbar-status` | 工具栏的各项显示/隐藏 | `Object` | {} |
 
 * `toolbar-status` 选项列表，可根据需要选择性配置
@@ -74,6 +76,8 @@ Vue.use(VueKityminder);
 | `node-change` | 新增/编辑时触发事件，其中新增返回的节点 `id` 为 `0` | 当前节点数据 |
 | `node-remove` | 删除时触发事件 | 当前节点数据 |
 | `selection-change` | 当前选中的节点 | 当前节点数据 |
+| `template-change` | 变更模板时触发 | 当前模板标识名 |
+| `theme-change` | 变更主题时触发 | 当前主题标识名 |
 
 * 删除按钮绑定的是双击事件
 
