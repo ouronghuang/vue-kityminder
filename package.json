@@ -8,12 +8,14 @@
     "kityminder",
     "vue-kityminder"
   ],
-  "version": "2.1.1",
+  "version": "2.2.0",
   "main": "./src/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
     "prod": "npm run production",
     "production": "mix --production"
   },

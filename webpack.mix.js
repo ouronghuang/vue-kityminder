@@ -5,8 +5,10 @@ mix.js('src/index.js', 'dist')
    .setPublicPath('dist')
    .webpackConfig({
      output: {
+       library: 'VueKityminder',
        libraryTarget: 'umd',
-       umdNamedDefine: true
+       umdNamedDefine: true,
+       libraryExport: 'default'
      }
    })
    .version()

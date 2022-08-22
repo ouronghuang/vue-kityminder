@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div id="app">
+    <vue-kityminder
+      :value="val"
+      :toolbar-status="toolbar"
+      style="height: 600px"
+    >
+    </vue-kityminder>
+  </div>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="./index.js"></script>
+  <script>
+    const App = {
+      data() {
+        return {
+          val: {
+            data: {
+              id: 1,
+              text: 'test'
+            },
+            children: [
+              {
+                data: {
+                  id: 2,
+                  text: '新闻\nsrc/module/node.j'
+                }
+              },
+              {
+                data: {
+                  id: 3,
+                  text: '网页'
+                }
+              }
+            ]
+          },
+          toolbar: {
+            appendSiblingNode: true,
+            arrangeUp: true,
+            arrangeDown: false,
+            text: true,
+            template: true,
+            hand: false,
+            resetLayout: true,
+            zoomIn: true,
+          }
+        };
+      },
+    };
+    const app = Vue.createApp(App);
+    app.use(VueKityminder);
+    app.mount("#app");
+  </script>
+</body>
+</html>
